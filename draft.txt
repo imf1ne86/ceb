@@ -1,0 +1,24 @@
+У него имеется репозиторий https://github.com/mudhairless/fbestrings
+Допустим, я локально получил эту директорию "fbestrings". Структура у ней следующая:
+1. В поддиректории "inc" имеются файлы "*.bi", включая тот же файл "strings.bi".
+2. В поддиректории "src" имеются файлы "*.bas", включая тот же файл "rot13.bas".
+Т.е. получается, что все библиотеки представлены в исходном коде на языке программирования FreeBASIC.
+У меня, например, проект с моей программой на FreeBASIC находится в директории "cae". Там располагается мой файл "main.bas" с программой "Hello World". Чтобы воспользоваться подпрограммами того разработчика, мне нужно директорию "fbestrings" со всей её структурой скопировать к себе в качестве подкаталога каталога "cae"?
+
+https://codeberg.org/mudhairless/fbestrings
+https://github.com/mudhairless/fbestrings
+https://www.freebasic.net/forum/viewtopic.php?t=6074
+
+#include once "strings.bi"
+Print strings.rot13_copy("Hello, World!")
+
+cae/
+├── main.bas
+└── fbestrings/
+    ├── inc/
+    └── src/
+
+$ fbc -i "fbestrings/inc" main.bas "fbestrings/src/rot13.bas"
+
+Ключ -i указывает компилятору, где искать strings.bi; путь к rot13.bas передаётся отдельно, чтобы скомпилировать реализацию вместе с main.bas.
+
