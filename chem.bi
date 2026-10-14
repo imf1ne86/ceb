@@ -37,6 +37,7 @@ Type Chemistry
     Declare Function ParseExpression(ByVal expression As String, ByRef exprInfo As CompoundList) As ElementList
     Declare Property GetLeftExpr As String
     Declare Property GetRightExpr As String
+    Declare Property IsExprOk As Boolean
     Declare Constructor(equation As String)
   Private:
     Dim As String leftExpr, rightExpr
@@ -83,6 +84,10 @@ Property Chemistry.GetRightExpr As String
     result = This.rightExpr
   End If
   Return result
+End Property
+
+Property Chemistry.IsExprOk As Boolean
+  Return This.ok
 End Property
 
 Function Chemistry.GetChemicalCompounds (ByVal expression As String) As CompoundList
@@ -276,6 +281,7 @@ Sub Chemistry.AddSideOfEquation(ByRef eq As SideOfEquationList, ByVal objHandSid
             eq.items(idx).elements.items(eq.items(idx).elements.count).atoms = atoms
           Else
             isError = True: ' переполнение элементами массива
+            This.ok = False
           End If
         End If
       Next idxElement
@@ -293,6 +299,7 @@ Function Chemistry.IsBalanced(ByVal leftHandSide As CompoundList, ByVal rightHan
     ' проверка сбалансированности уравнения химической реакции
     If eq.items(1).elements.count <> eq.items(2).elements.count Then
       isError = True
+      This.ok = False
     Else
       Dim As ElementType currEl1, currEl2
       Dim isFound As Boolean
